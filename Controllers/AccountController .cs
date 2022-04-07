@@ -28,16 +28,16 @@ namespace MusicPlayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                User user = await _context.User.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
                     // добавляем пользователя в бд
                     user = new User { Email = model.Email, Password = model.Password };
-                    Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
+                    Role userRole = await _context.Role.FirstOrDefaultAsync(r => r.Name == "user");
                     if (userRole != null)
                         user.Role = userRole;
 
-                    _context.Users.Add(user);
+                    _context.User.Add(user);
                     await _context.SaveChangesAsync();
 
                     await Authenticate(user); // аутентификация
@@ -60,7 +60,7 @@ namespace MusicPlayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.Users
+                User user = await _context.User
                     .Include(u => u.Role)
                     .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)

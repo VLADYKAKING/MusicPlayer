@@ -69,3 +69,11 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+/* audio
+-------------------------------------------------- */
+audio { 
+    width: 600px; 
+    box-shadow: 3px 3px 10px rgba(0,0, 0, 0.4);
+    border-radius: 90px;
+  }
