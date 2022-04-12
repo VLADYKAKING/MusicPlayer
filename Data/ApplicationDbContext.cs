@@ -6,10 +6,19 @@ namespace MusicPlayer.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<User> User { get; set; }
+        public DbSet<Album> Album { get; set; }
+        public DbSet<Author> Author { get; set; }
+        public DbSet<Genre> Genre { get; set; }
+        public DbSet<Playlist> Playlist { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Song> Song { get; set; }
-        public DbSet<Author> Author { get; set; }
+        public DbSet<SongList> SongList { get; set; }
+        public DbSet<SongsPlaylist> SongsPlaylist { get; set; }
+        public DbSet<User> User { get; set; }
+        
+        
+        
+        
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -37,8 +46,6 @@ namespace MusicPlayer.Data
             //add music
             Song song = new Song { Id = 1, Name = "Лунная соната", Duration = "5:51",CoverPath= @"covers/moonlight.jpg", FilePath= @"music/moonlightSonata.mp3", GenreId = 1, AuthorId = 1, AlbumId = 1 };
             modelBuilder.Entity<Song>().HasData(new Song[] { song });
-
-
 
 
 

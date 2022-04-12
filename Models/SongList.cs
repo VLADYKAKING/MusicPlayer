@@ -1,6 +1,6 @@
 ﻿namespace MusicPlayer.Models
 {
-    public class SongsList
+    public class SongList
     {
         public int Id { get; set; }
         public int SongId { get; set; }

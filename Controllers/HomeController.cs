@@ -1,49 +1,68 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
+using MusicPlayer.ViewModels;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using MusicPlayer.ViewModels;
 
 namespace MusicPlayer.Controllers
 {
 
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private ApplicationDbContext db;
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context)
         {
-            _logger = logger;
             db = context;
         }
-        [Authorize(Roles = "admin, user")]
+
+
+        //all songs to view
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        [Authorize(Roles = "admin, user")]
+        public async Task<IActionResult> AllSongs()
         {
-            return View(await 
+            return View(await
                 db.Song.Join(
                 db.Author,
                 s => s.AuthorId,
                 a => a.Id,
                 (s, a) => new SongViewModel
                 {
+                    Id = s.Id,
                     Name = s.Name,
                     Author = a.Name,
                     FilePath = s.FilePath,
                     CoverPath = s.CoverPath
                 }).ToListAsync());
         }
-        [Authorize(Roles = "admin")]
-        public IActionResult Privacy()
+
+
+        //add to db
+        [Authorize(Roles = "admin, user")]
+        public async Task<IActionResult> Add(int id)
         {
-            return View();
+            var user = await db.User.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+            if (await db.SongList.FirstOrDefaultAsync(x => x.SongId == id && x.UserId == user.Id) == null)
+            {
+
+                var songList = new SongList
+                {
+                    SongId = id,
+                    UserId = user.Id
+                };
+
+                db.SongList.Add(songList);
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("AllSongs");
         }
 
+
+        //error
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

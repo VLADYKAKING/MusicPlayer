@@ -32,17 +32,16 @@ namespace MusicPlayer.Controllers
                 if (user == null)
                 {
                     // добавляем пользователя в бд
-                    user = new User { Email = model.Email, Password = model.Password };
+                    user = new User {Name=model.Name, Email = model.Email, Password = model.Password };
                     Role userRole = await _context.Role.FirstOrDefaultAsync(r => r.Name == "user");
-                    if (userRole != null)
-                        user.Role = userRole;
+                    if (userRole != null) user.Role = userRole;
 
                     _context.User.Add(user);
                     await _context.SaveChangesAsync();
 
                     await Authenticate(user); // аутентификация
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("AllSongs", "Home");
                 }
                 else
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
@@ -67,7 +66,7 @@ namespace MusicPlayer.Controllers
                 {
                     await Authenticate(user); // аутентификация
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("AllSongs", "Home");
                 }
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
@@ -90,7 +89,7 @@ namespace MusicPlayer.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("AllSongs", "Home");
         }
     }
 }
