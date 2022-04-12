@@ -23,6 +23,14 @@
                     </audio>
                 </form>
             </div>
+            <div class="d-flex flex-wrap align-content-center">
+                <label class="control-label">Плейлист</label>
+                <select class="form-control" asp-items="@ViewBag.playlists" >
+                    <option disabled selected>--Выберите Альбом--</option>
+                </select>
+                <a class="btn btn-success" asp-controller="" asp-action="" asp-route-id="@item.Id">Добавить</a>
+                <a class="btn btn-success" asp-controller="" asp-action="" asp-route-id="@item.Id">Удалить</a>
+            </div>
         </div>
     }
 </div>
