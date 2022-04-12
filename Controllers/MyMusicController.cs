@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
 using MusicPlayer.ViewModels;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,19 +27,22 @@ namespace MusicPlayer.Controllers
         {
             var user = await db.User.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
 
-            var query = 
+            var mySongs = 
                 from list in db.SongList
                 join song in db.Song on list.SongId equals song.Id
                 join author in db.Author on song.AuthorId equals author.Id
                 where list.UserId == user.Id
-                select new SongViewModel { 
+                select new SongViewModel 
+                { 
                     Id = song.Id,
                     Name = song.Name, 
                     Author = author.Name, 
                     FilePath = song.FilePath, 
-                    CoverPath = song.CoverPath };
+                    CoverPath = song.CoverPath 
+                };
 
-            return View(await query.ToListAsync());
+            ViewBag.playlists = new SelectList(db.Playlist, "Id", "Name");
+            return View(await mySongs.ToListAsync());
                 
         }
 
