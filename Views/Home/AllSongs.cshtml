@@ -1,29 +1,31 @@
 ﻿@model IEnumerable<MusicPlayer.ViewModels.SongViewModel>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Вся музыка";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Каталог музыки</h1>
 </div>
 
-<div class="d-flex flex-row w-100">
+<div class="d-flex flex-column w-100">
     @foreach (var item in Model)
     {
-        <div class="p-2" style="width: 100px">
-            <img src="@item.CoverPath" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="p-2">
-            <span class="font-weight-bold">@item.Name — </span>
-            <span class="font-weight-light">@item.Author</span>
-            <form runat="server">
-                <audio controls>
-                  <source src="@item.FilePath" type="audio/mpeg">
-                </audio>
-            </form>
-        </div>
-        <div class="d-flex flex-wrap align-content-center">
-            <a class="btn btn-success" asp-controller="Home" asp-action="Add" asp-route-id="@item.Id">Добавить</a>
+        <div class="d-flex flex-row w-100">
+            <div class="p-2" style="width: 100px">
+                <img src="@item.CoverPath" class="img-fluid" alt="Responsive image">
+            </div>
+            <div class="p-2">
+                <span class="font-weight-bold">@item.Name — </span>
+                <span class="font-weight-light">@item.Author</span>
+                <form runat="server">
+                    <audio controls>
+                      <source src="@item.FilePath" type="audio/mpeg">
+                    </audio>
+                </form>
+            </div>
+            <div class="d-flex flex-wrap align-content-center">
+                <a class="btn btn-success" asp-controller="Home" asp-action="Add" asp-route-id="@item.Id">Добавить</a>
+            </div>
         </div>
     }
 </div>
