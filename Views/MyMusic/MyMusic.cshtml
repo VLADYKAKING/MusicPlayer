@@ -25,12 +25,26 @@
             </div>
             <div class="d-flex flex-wrap align-content-center">
                 <label class="control-label">Плейлист</label>
-                <select class="form-control" asp-items="@ViewBag.playlists" >
-                    <option disabled selected>--Выберите Альбом--</option>
+
+                <select id="selectPlaylist" class="form-control" asp-items="@ViewBag.playlists">
+                    <option disabled selected>--Выберите Плейлист--</option>
                 </select>
-                <a class="btn btn-success" asp-controller="" asp-action="" asp-route-id="@item.Id">Добавить</a>
+
+                <a id="hyperlink" class="btn btn-success" asp-controller="MyMusic" asp-action="AddToPlaylist" asp-route-SongId="@item.Id">Добавить</a>
                 <a class="btn btn-success" asp-controller="" asp-action="" asp-route-id="@item.Id">Удалить</a>
             </div>
         </div>
     }
 </div>
+
+@section Scripts {
+     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+     <script type="text/javascript">
+         $(function () {
+             $("#selectPlaylist").change(function () {
+                 var newurl = $("#hyperlink").attr("href") + "&PlaylistId=" + $(this).val();
+                 $("#hyperlink").attr("href", newurl);
+             });
+         });
+     </script>
+ }
