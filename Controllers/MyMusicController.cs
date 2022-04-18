@@ -23,7 +23,7 @@ namespace MusicPlayer.Controllers
 
         //my music
         [Authorize(Roles = "admin, user")]
-        public async Task<IActionResult> MySongs()
+        public async Task<IActionResult> MyMusic()
         {
             var user = await db.User.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
 
@@ -44,6 +44,12 @@ namespace MusicPlayer.Controllers
             ViewBag.playlists = new SelectList(db.Playlist, "Id", "Name");
             return View(await mySongs.ToListAsync());
                 
+        }
+        public async Task<IActionResult> AddToPlaylist(int SongId,int PlaylistId)
+        {
+            db.SongsPlaylist.Add(new SongsPlaylist { SongId = SongId, PlaylistId = PlaylistId });
+            await db.SaveChangesAsync();
+            return RedirectToAction("MyMusic");
         }
 
 
