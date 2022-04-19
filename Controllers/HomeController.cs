@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
 using MusicPlayer.ViewModels;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,10 +25,10 @@ namespace MusicPlayer.Controllers
         //all songs to view
         [AllowAnonymous]
         [Authorize(Roles = "admin, user")]
-        public async Task<IActionResult> AllSongs()
+        public async Task<IActionResult> AllSongs(int? genre, string name)
         {
-            return View(await
-                db.Song.Join(
+
+            var res = db.Song.Join(
                 db.Author,
                 s => s.AuthorId,
                 a => a.Id,
@@ -36,8 +38,22 @@ namespace MusicPlayer.Controllers
                     Name = s.Name,
                     Author = a.Name,
                     FilePath = s.FilePath,
-                    CoverPath = s.CoverPath
-                }).ToListAsync());
+                    CoverPath = s.CoverPath,
+                    GenreId = s.GenreId,
+                });
+            if (genre != null && genre != 0)
+            {
+                res = res.Where(p => p.GenreId == genre);
+            }
+            if (!String.IsNullOrEmpty(name))
+            {
+                res = res.Where(x => x.Name.Contains(name));
+            }
+            var genres = db.Genre.ToList();
+            genres.Insert(0, new Genre { Id = 0, Name = "Все" });
+
+            ViewBag.genres = new SelectList(genres, "Id", "Name");
+            return View(await res.ToListAsync());
         }
 
 
