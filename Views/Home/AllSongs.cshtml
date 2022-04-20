@@ -6,6 +6,15 @@
 <div class="text-center">
     <h1 class="display-4">Каталог музыки</h1>
 </div>
+        <form>
+            <div class="form-inline form-group">
+                <label class="control-label">Название: </label>
+                <input name="name" class="form-control" />
+                 <select name="genre" asp-items="@ViewBag.genres" class="form-control"></select>
+ 
+                <input type="submit" value="Фильтр" class="btn btn-primary" />
+            </div>
+        </form>
 
 <div class="d-flex flex-column w-100">
     @foreach (var item in Model)

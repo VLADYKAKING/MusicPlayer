@@ -7,5 +7,6 @@
         public string Author { get; set; }
         public string FilePath { get; set; }
         public string CoverPath { get; set; }
+        public int GenreId { get; set; }
     }
 }
