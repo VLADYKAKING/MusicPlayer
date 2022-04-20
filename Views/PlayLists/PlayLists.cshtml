@@ -24,7 +24,7 @@
     @foreach (var item in Model)
     {
         <details id="playlist_@item.Playlist.Id">
-            <summary>@item.Playlist.Name <a class="btn btn-danger" asp-controller="" asp-action="" asp-route-id="">Удалить</a></summary>
+            <summary>@item.Playlist.Name <a class="btn btn-danger" asp-controller="PlayLists" asp-action="DeletePlaylist" asp-route-id="@item.Playlist.Id">Удалить</a></summary>
             @foreach (var el in item.ListSongViewModel)
             {
                 <div class="d-flex flex-row w-100">

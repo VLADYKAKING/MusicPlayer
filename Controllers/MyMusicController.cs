@@ -45,10 +45,24 @@ namespace MusicPlayer.Controllers
             return View(await mySongs.ToListAsync());
                 
         }
+
+
         public async Task<IActionResult> AddToPlaylist(int SongId,int PlaylistId)
         {
             db.SongsPlaylist.Add(new SongsPlaylist { SongId = SongId, PlaylistId = PlaylistId });
             await db.SaveChangesAsync();
+            return RedirectToAction("MyMusic");
+        }
+
+
+        public async Task<IActionResult> DeleteFromMyMusic(int id)
+        {
+            var user = await db.User.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+            var song = new SongList { Id=id };
+            db.SongList.Attach(song);
+            db.SongList.Remove(song);
+            await db.SaveChangesAsync();
+
             return RedirectToAction("MyMusic");
         }
 

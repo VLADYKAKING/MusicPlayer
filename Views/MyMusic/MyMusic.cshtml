@@ -31,14 +31,13 @@
                 </select>
 
                 <a id="hyperlink" class="btn btn-success" asp-controller="MyMusic" asp-action="AddToPlaylist" asp-route-SongId="@item.Id">Добавить</a>
-                <a class="btn btn-success" asp-controller="" asp-action="" asp-route-id="@item.Id">Удалить</a>
+                <a class="btn btn-danger" asp-controller="MyMusic" asp-action="DeleteFromMyMusic" asp-route-id="@item.Id">Удалить</a>
             </div>
         </div>
     }
 </div>
 
 @section Scripts {
-     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
      <script type="text/javascript">
          $(function () {
              $("#selectPlaylist").change(function () {

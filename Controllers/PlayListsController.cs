@@ -56,6 +56,25 @@ namespace MusicPlayer.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("PlayLists");
         }
+
+
+        public async Task<IActionResult> DeletePlaylist(int id)
+        {
+            if (db.Playlist.Contains(db.Playlist.FirstOrDefault(x=>x.Id==id)))
+            {
+                var songsPlaylist = db.SongsPlaylist.Where(x => x.PlaylistId == id);
+                var playlist = new Playlist { Id = id };
+
+                //db.SongsPlaylist.AttachRange(songsPlaylist);
+                //db.Playlist.Attach(playlist);
+
+                //db.SongsPlaylist.RemoveRange(songsPlaylist);
+                //db.Playlist.Remove(playlist);
+
+                //await db.SaveChangesAsync();
+            }
+            return RedirectToAction("PlayLists");
+        }
     }
     public class PlayListsViewModel
     {
