@@ -62,9 +62,9 @@ namespace MusicPlayer.Controllers
         public async Task<IActionResult> Add(int id)
         {
             var user = await db.User.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
-            if (await db.SongList.FirstOrDefaultAsync(x => x.SongId == id && x.UserId == user.Id) == null)
+            var sl = await db.SongList.FirstOrDefaultAsync(x => x.SongId == id && x.UserId == user.Id);
+            if (sl == null)
             {
-
                 var songList = new SongList
                 {
                     SongId = id,

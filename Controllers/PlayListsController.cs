@@ -44,28 +44,37 @@ namespace MusicPlayer.Controllers
                 };
             return View(await res.ToListAsync());
         }
+
+
         public async Task<IActionResult> AddPlaylist(string playlistName)
         {
             var user = await db.User.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
-            var playlist = new Playlist
+            var pl = await db.Playlist.FirstOrDefaultAsync(x => x.Name == playlistName);
+            if (pl==null)
             {
-                Name = playlistName,
-                UserId = user.Id
-            };
-            db.Playlist.Add(playlist);
-            await db.SaveChangesAsync();
+                var playlist = new Playlist
+                {
+                    Name = playlistName,
+                    UserId = user.Id
+                };
+                db.Playlist.Add(playlist);
+                await db.SaveChangesAsync();
+            }
             return RedirectToAction("PlayLists");
         }
 
 
         public async Task<IActionResult> DeletePlaylist(int id)
         {
-            if (db.Playlist.Contains(db.Playlist.FirstOrDefault(x => x.Id == id)))
+            var pl = await db.Playlist.FirstOrDefaultAsync(x => x.Id == id);
+            if (pl!=null)
             {
-                var songsPlaylist = db.SongsPlaylist.Where(x => x.PlaylistId == id).ToList();
-                var playlist = db.Playlist.FirstOrDefault(x => x.Id == id);
-                db.SongsPlaylist.RemoveRange(songsPlaylist);
-                db.Playlist.Remove(playlist);
+                db.Playlist.Remove(pl);
+                var spl =await db.SongsPlaylist.Where(x => x.PlaylistId == id).ToListAsync();
+                if (spl!=null)
+                {
+                    db.SongsPlaylist.RemoveRange(spl);
+                }
                 await db.SaveChangesAsync();
             }
             return RedirectToAction("PlayLists");

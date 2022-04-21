@@ -26,24 +26,33 @@
             <div class="d-flex flex-wrap align-content-center">
                 <label class="control-label">Плейлист</label>
 
-                <select id="selectPlaylist" class="form-control" asp-items="@ViewBag.playlists">
-                    <option disabled selected>--Выберите Плейлист--</option>
-                </select>
+                <form asp-controller="MyMusic" asp-action="AddToPlaylist" asp-route-SongId="@item.Id">
+                    <div class="form-group">
+                        <select name="PlaylistId" asp-items="@ViewBag.playlists" class="form-control">
+                            <option disabled selected>--Выберите Плейлист--</option>
+                        </select>
+                        <input type="submit" value="Добавить" class="btn btn-success"/>
+                        <a class="btn btn-danger" asp-controller="MyMusic" asp-action="DeleteFromMyMusic" asp-route-songId="@item.Id">Удалить</a>
+                    </div>
+                </form>
+                
 
-                <a id="hyperlink" class="btn btn-success" asp-controller="MyMusic" asp-action="AddToPlaylist" asp-route-SongId="@item.Id">Добавить</a>
-                <a class="btn btn-danger" asp-controller="MyMusic" asp-action="DeleteFromMyMusic" asp-route-id="@item.Id">Удалить</a>
+                
             </div>
         </div>
     }
 </div>
 
-@section Scripts {
+@*@section Scripts {
      <script type="text/javascript">
          $(function () {
-             $("#selectPlaylist").change(function () {
-                 var newurl = $("#hyperlink").attr("href") + "&PlaylistId=" + $(this).val();
-                 $("#hyperlink").attr("href", newurl);
-             });
+             $("#selectPlaylist").change(
+                 function () 
+                 {
+                    var newurl = $("#hyperlink").attr("href") + "&PlaylistId=" + $(this).val();
+                    $("#hyperlink").attr("href", newurl);
+                 }
+             );
          });
      </script>
- }
+ }*@

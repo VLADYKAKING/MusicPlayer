@@ -17,11 +17,15 @@ namespace MusicPlayer.Controllers
         {
             _context = context;
         }
+
+
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
@@ -48,11 +52,15 @@ namespace MusicPlayer.Controllers
             }
             return View(model);
         }
+
+
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
@@ -72,6 +80,8 @@ namespace MusicPlayer.Controllers
             }
             return View(model);
         }
+
+
         private async Task Authenticate(User user)
         {
             // создаем один claim
@@ -86,6 +96,8 @@ namespace MusicPlayer.Controllers
             // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
+
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
