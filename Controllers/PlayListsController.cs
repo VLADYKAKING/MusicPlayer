@@ -60,12 +60,24 @@ namespace MusicPlayer.Controllers
 
         public async Task<IActionResult> DeletePlaylist(int id)
         {
-            if (db.Playlist.Contains(db.Playlist.FirstOrDefault(x=>x.Id==id)))
+            if (db.Playlist.Contains(db.Playlist.FirstOrDefault(x => x.Id == id)))
             {
                 var songsPlaylist = db.SongsPlaylist.Where(x => x.PlaylistId == id).ToList();
                 var playlist = db.Playlist.FirstOrDefault(x => x.Id == id);
                 db.SongsPlaylist.RemoveRange(songsPlaylist);
                 db.Playlist.Remove(playlist);
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("PlayLists");
+        }
+
+
+        public async Task<IActionResult> DeleteMusicFromPlaylist(int songId, int playlistId)
+        {
+            var currentSong = db.SongsPlaylist.FirstOrDefault(c => c.SongId == songId && c.PlaylistId == playlistId);
+            if (currentSong != null)
+            {
+                db.SongsPlaylist.Remove(currentSong);
                 await db.SaveChangesAsync();
             }
             return RedirectToAction("PlayLists");

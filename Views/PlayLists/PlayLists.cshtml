@@ -41,7 +41,7 @@
                         </form>
                     </div>
                     <div class="d-flex flex-wrap align-content-center">
-                        <a class="btn btn-danger">Удалить</a>
+                        <a class="btn btn-danger" asp-controller="PlayLists" asp-action="DeleteMusicFromPlaylist" asp-route-songId="@el.Id" asp-route-playlistId="@item.Playlist.Id">Удалить</a>
                     </div>
                 </div>
             }
