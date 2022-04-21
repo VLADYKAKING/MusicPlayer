@@ -47,10 +47,6 @@ namespace MusicPlayer.Data
             Song song = new Song { Id = 1, Name = "Лунная соната", Duration = "5:51",CoverPath= @"covers/moonlight.jpg", FilePath= @"music/moonlightSonata.mp3", GenreId = 1, AuthorId = 1, AlbumId = 1 };
             modelBuilder.Entity<Song>().HasData(new Song[] { song });
 
-
-
-
-
             base.OnModelCreating(modelBuilder);
         }
     }
