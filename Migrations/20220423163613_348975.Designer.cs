@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicPlayer.Data;
 
 namespace MusicPlayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220423163613_348975")]
+    partial class _348975
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,7 @@ namespace MusicPlayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AuthorId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
@@ -45,14 +47,9 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 4, 23, 22, 47, 28, 643, DateTimeKind.Local).AddTicks(7984),
+                            AuthorId = 0,
+                            Date = new DateTime(2022, 4, 23, 22, 36, 11, 857, DateTimeKind.Local).AddTicks(7601),
                             Name = "Композиции Бетховена"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Date = new DateTime(2022, 4, 23, 22, 47, 28, 644, DateTimeKind.Local).AddTicks(8610),
-                            Name = "Композиции MGMT"
                         });
                 });
 
@@ -75,11 +72,6 @@ namespace MusicPlayer.Migrations
                         {
                             Id = 1,
                             Name = "Людвиг ван Бетховен"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "MGMT"
                         });
                 });
 
@@ -102,11 +94,6 @@ namespace MusicPlayer.Migrations
                         {
                             Id = 1,
                             Name = "Классика"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Электропоп"
                         });
                 });
 
@@ -202,16 +189,6 @@ namespace MusicPlayer.Migrations
                             FilePath = "music/moonlightSonata.mp3",
                             GenreId = 1,
                             Name = "Лунная соната"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AlbumId = 2,
-                            AuthorId = 2,
-                            CoverPath = "covers/lda.jpg",
-                            FilePath = "music/MGMT - Little Dark Age.mp3",
-                            GenreId = 2,
-                            Name = "Little Dark Age"
                         });
                 });
 
@@ -307,7 +284,9 @@ namespace MusicPlayer.Migrations
                 {
                     b.HasOne("MusicPlayer.Models.Author", null)
                         .WithMany("Albums")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MusicPlayer.Models.Playlist", b =>

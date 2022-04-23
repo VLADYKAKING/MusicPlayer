@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Album>
+@{
     ViewData["Title"] = "Альбомы";
 }
 
@@ -30,17 +31,16 @@
 <div class="d-flex flex-column w-100">
     @foreach (var item in Model)
     {
-        <details id="playlist_@item.Playlist.Id">
-            <summary>@item.Playlist.Name <a class="btn btn-danger" asp-controller="PlayLists" asp-action="DeletePlaylist" asp-route-id="@item.Playlist.Id">Удалить</a></summary>
-            @foreach (var el in item.ListSongViewModel)
+        <details>
+            <summary>@item.Name — @item.Songs.FirstOrDefault().Author — <span>@item.Date.ToString("MM/yyyy")</span></summary>
+            @foreach (var el in item.Songs)
             {
                 <div class="d-flex flex-row w-100">
                     <div class="p-2" style="width: 100px">
                         <img src="/@el.CoverPath" class="img-fluid" alt="Responsive image">
                     </div>
                     <div class="p-2">
-                        <span class="font-weight-bold">@el.Name — </span>
-                        <span class="font-weight-light">@el.Author</span>
+                        <span class="font-weight-bold">@el.Name</span>
                         <form runat="server">
                             <audio controls>
                               <source src="/@el.FilePath" type="audio/mpeg">
@@ -48,7 +48,6 @@
                         </form>
                     </div>
                     <div class="d-flex flex-wrap align-content-center">
-                        <a class="btn btn-danger" asp-controller="PlayLists" asp-action="DeleteMusicFromPlaylist" asp-route-songId="@el.Id" asp-route-playlistId="@item.Playlist.Id">Удалить</a>
                     </div>
                 </div>
             }

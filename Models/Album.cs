@@ -9,6 +9,5 @@ namespace MusicPlayer.Models
         public string Name { get; set; }
         public DateTime Date { get; set; }
         public List<Song> Songs { get; set; }
-
     }
 }
