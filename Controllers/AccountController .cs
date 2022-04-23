@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using MusicPlayer.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MusicPlayer.Data;
+using MusicPlayer.Models;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MusicPlayer.Controllers
 {
@@ -36,7 +36,7 @@ namespace MusicPlayer.Controllers
                 if (user == null)
                 {
                     // добавляем пользователя в бд
-                    user = new User {Name=model.Name, Email = model.Email, Password = model.Password };
+                    user = new User { Name = model.Name, Email = model.Email, Password = model.Password };
                     Role userRole = await _context.Role.FirstOrDefaultAsync(r => r.Name == "user");
                     if (userRole != null) user.Role = userRole;
 

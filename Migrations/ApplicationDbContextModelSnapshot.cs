@@ -26,6 +26,9 @@ namespace MusicPlayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -34,13 +37,15 @@ namespace MusicPlayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AuthorId");
+
                     b.ToTable("Album");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 4, 17, 21, 2, 36, 691, DateTimeKind.Local).AddTicks(931),
+                            Date = new DateTime(2022, 4, 23, 19, 49, 45, 983, DateTimeKind.Local).AddTicks(6714),
                             Name = "Композиции Бетховена"
                         });
                 });
@@ -152,9 +157,6 @@ namespace MusicPlayer.Migrations
                     b.Property<string>("CoverPath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Duration")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FilePath")
                         .HasColumnType("nvarchar(max)");
 
@@ -181,7 +183,6 @@ namespace MusicPlayer.Migrations
                             AlbumId = 1,
                             AuthorId = 1,
                             CoverPath = "covers/moonlight.jpg",
-                            Duration = "5:51",
                             FilePath = "music/moonlightSonata.mp3",
                             GenreId = 1,
                             Name = "Лунная соната"
@@ -202,6 +203,8 @@ namespace MusicPlayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SongId");
 
                     b.HasIndex("UserId");
 
@@ -274,6 +277,13 @@ namespace MusicPlayer.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MusicPlayer.Models.Album", b =>
+                {
+                    b.HasOne("MusicPlayer.Models.Author", null)
+                        .WithMany("Albums")
+                        .HasForeignKey("AuthorId");
+                });
+
             modelBuilder.Entity("MusicPlayer.Models.Playlist", b =>
                 {
                     b.HasOne("MusicPlayer.Models.User", "User")
@@ -288,7 +298,7 @@ namespace MusicPlayer.Migrations
             modelBuilder.Entity("MusicPlayer.Models.Song", b =>
                 {
                     b.HasOne("MusicPlayer.Models.Album", "Album")
-                        .WithMany()
+                        .WithMany("Songs")
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -300,7 +310,7 @@ namespace MusicPlayer.Migrations
                         .IsRequired();
 
                     b.HasOne("MusicPlayer.Models.Genre", "Genre")
-                        .WithMany()
+                        .WithMany("Songs")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -314,11 +324,19 @@ namespace MusicPlayer.Migrations
 
             modelBuilder.Entity("MusicPlayer.Models.SongList", b =>
                 {
+                    b.HasOne("MusicPlayer.Models.Song", "Song")
+                        .WithMany()
+                        .HasForeignKey("SongId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MusicPlayer.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Song");
 
                     b.Navigation("User");
                 });
@@ -349,6 +367,21 @@ namespace MusicPlayer.Migrations
                         .HasForeignKey("RoleId");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("MusicPlayer.Models.Album", b =>
+                {
+                    b.Navigation("Songs");
+                });
+
+            modelBuilder.Entity("MusicPlayer.Models.Author", b =>
+                {
+                    b.Navigation("Albums");
+                });
+
+            modelBuilder.Entity("MusicPlayer.Models.Genre", b =>
+                {
+                    b.Navigation("Songs");
                 });
 
             modelBuilder.Entity("MusicPlayer.Models.Role", b =>

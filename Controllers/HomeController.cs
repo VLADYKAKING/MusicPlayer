@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
-using MusicPlayer.ViewModels;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -22,42 +21,33 @@ namespace MusicPlayer.Controllers
         }
 
 
-        //all songs to view
         [AllowAnonymous]
         [Authorize(Roles = "admin, user")]
-        public async Task<IActionResult> AllSongs(int? genre, string name)
+        public async Task<IActionResult> AllSongs(int? genre, string name, string author)
         {
+            var res = await db.Song.Include(s => s.Author).Include(g => g.Genre).ToListAsync();
 
-            var res = db.Song.Join(
-                db.Author,
-                s => s.AuthorId,
-                a => a.Id,
-                (s, a) => new SongViewModel
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Author = a.Name,
-                    FilePath = s.FilePath,
-                    CoverPath = s.CoverPath,
-                    GenreId = s.GenreId,
-                });
             if (genre != null && genre != 0)
             {
-                res = res.Where(p => p.GenreId == genre);
+                res = res.Where(s => s.Genre.Id == genre).ToList();
             }
             if (!String.IsNullOrEmpty(name))
             {
-                res = res.Where(x => x.Name.Contains(name));
+                res = res.Where(s => s.Name.Contains(name)).ToList();
             }
+            if (!String.IsNullOrEmpty(author))
+            {
+                res = res.Where(s => s.Author.Name.Contains(author)).ToList();
+            }
+
             var genres = db.Genre.ToList();
             genres.Insert(0, new Genre { Id = 0, Name = "Все" });
 
             ViewBag.genres = new SelectList(genres, "Id", "Name");
-            return View(await res.ToListAsync());
+            return View(res);
         }
 
 
-        //add to db
         [Authorize(Roles = "admin, user")]
         public async Task<IActionResult> Add(int id)
         {
@@ -78,7 +68,6 @@ namespace MusicPlayer.Controllers
         }
 
 
-        //error
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

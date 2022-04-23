@@ -15,10 +15,10 @@ namespace MusicPlayer.Data
         public DbSet<SongList> SongList { get; set; }
         public DbSet<SongsPlaylist> SongsPlaylist { get; set; }
         public DbSet<User> User { get; set; }
-        
-        
-        
-        
+
+
+
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -44,7 +44,7 @@ namespace MusicPlayer.Data
             Album album = new Album { Id = 1, Name = "Композиции Бетховена", Date = DateTime.Now };
             modelBuilder.Entity<Album>().HasData(new Album[] { album });
             //add music
-            Song song = new Song { Id = 1, Name = "Лунная соната", Duration = "5:51",CoverPath= @"covers/moonlight.jpg", FilePath= @"music/moonlightSonata.mp3", GenreId = 1, AuthorId = 1, AlbumId = 1 };
+            Song song = new Song { Id = 1, Name = "Лунная соната", CoverPath = @"covers/moonlight.jpg", FilePath = @"music/moonlightSonata.mp3", GenreId = 1, AuthorId = 1, AlbumId = 1 };
             modelBuilder.Entity<Song>().HasData(new Song[] { song });
 
             base.OnModelCreating(modelBuilder);

@@ -19,13 +19,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AllSongs">Все композиции</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="AllSongs">Все композиции</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="MyMusic" asp-action="MyMusic">Моя музыка</a>
+@*                            <a class="nav-link text-dark" asp-controller="Albums" asp-action="Albums">Альбомы</a>
+*@                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="MyMusic" asp-action="MyMusic">Моя музыка</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="PlayLists" asp-action="PlayLists">Мои плейлисты</a>
+                            <a class="nav-link text-dark" asp-controller="PlayLists" asp-action="PlayLists">Мои плейлисты</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

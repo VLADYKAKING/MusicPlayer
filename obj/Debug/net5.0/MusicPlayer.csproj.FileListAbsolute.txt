@@ -148,3 +148,4 @@ C:\Users\vadal\Desktop\MusicPlayer\obj\Debug\net5.0\refint\MusicPlayer.dll
 C:\Users\vadal\Desktop\MusicPlayer\obj\Debug\net5.0\MusicPlayer.pdb
 C:\Users\vadal\Desktop\MusicPlayer\obj\Debug\net5.0\MusicPlayer.genruntimeconfig.cache
 C:\Users\vadal\Desktop\MusicPlayer\obj\Debug\net5.0\ref\MusicPlayer.dll
+C:\Users\V\Desktop\MusicPlayer\obj\Debug\net5.0\Razor\Views\Albums\Albums.cshtml.g.cs

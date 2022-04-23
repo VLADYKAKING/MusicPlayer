@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MusicPlayer.ViewModels.SongViewModel>
+﻿@model List<Song>
 @{
     ViewData["Title"] = "Вся музыка";
 }
@@ -10,9 +10,11 @@
             <div class="form-inline form-group">
                 <label class="control-label">Название: </label>
                 <input name="name" class="form-control" />
+                <label class="control-label">Автор: </label>
+                <input name="author" class="form-control" />
                  <select name="genre" asp-items="@ViewBag.genres" class="form-control"></select>
  
-                <input type="submit" value="Фильтр" class="btn btn-primary" />
+                <input type="submit" value="Найти" class="btn btn-primary" />
             </div>
         </form>
 
@@ -25,7 +27,7 @@
             </div>
             <div class="p-2">
                 <span class="font-weight-bold">@item.Name — </span>
-                <span class="font-weight-light">@item.Author</span>
+                <span class="font-weight-light">@item.Author.Name</span>
                 <form runat="server">
                     <audio controls>
                       <source src="@item.FilePath" type="audio/mpeg">

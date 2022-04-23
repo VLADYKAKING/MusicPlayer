@@ -1,8 +1,11 @@
-﻿namespace MusicPlayer.Models
+﻿using System.Collections.Generic;
+
+namespace MusicPlayer.Models
 {
     public class Genre
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public List<Song> Songs { get; set; }
     }
 }

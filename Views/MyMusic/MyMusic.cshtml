@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MusicPlayer.ViewModels.SongViewModel>
+﻿@model List<SongList>
 @{
     ViewData["Title"] = "Моя музыка";
 }
@@ -7,37 +7,42 @@
     <h1 class="display-4">Моя музыка</h1>
 </div>
 
+        <form>
+            <div class="form-inline form-group">
+                <label class="control-label">Название: </label>
+                <input name="name" class="form-control" />
+                <input type="submit" value="Найти" class="btn btn-primary" />
+            </div>
+        </form>       
+
 <div class="d-flex flex-column w-100">
     @foreach (var item in Model)
     {
         <div class="d-flex flex-row w-100">
             <div class="p-2" style="width: 100px">
-                <img src="/@item.CoverPath" class="img-fluid" alt="Responsive image">
+                <img src="/@item.Song.CoverPath" class="img-fluid" alt="Responsive image">
             </div>
             <div class="p-2">
-                <span class="font-weight-bold">@item.Name — </span>
-                <span class="font-weight-light">@item.Author</span>
+                <span class="font-weight-bold">@item.Song.Name — </span>
+                <span class="font-weight-light">@item.Song.Author.Name</span>
                 <form runat="server">
                     <audio controls>
-                      <source src="/@item.FilePath" type="audio/mpeg">
+                      <source src="/@item.Song.FilePath" type="audio/mpeg">
                     </audio>
                 </form>
             </div>
             <div class="d-flex flex-wrap align-content-center">
                 <label class="control-label">Плейлист</label>
 
-                <form asp-controller="MyMusic" asp-action="AddToPlaylist" asp-route-SongId="@item.Id">
+                <form asp-controller="MyMusic" asp-action="AddToPlaylist" asp-route-SongId="@item.Song.Id">
                     <div class="form-group">
                         <select name="PlaylistId" asp-items="@ViewBag.playlists" class="form-control">
                             <option disabled selected>--Выберите Плейлист--</option>
                         </select>
                         <input type="submit" value="Добавить" class="btn btn-success"/>
-                        <a class="btn btn-danger" asp-controller="MyMusic" asp-action="DeleteFromMyMusic" asp-route-songId="@item.Id">Удалить</a>
+                        <a class="btn btn-danger" asp-controller="MyMusic" asp-action="DeleteFromMyMusic" asp-route-songId="@item.Song.Id">Удалить</a>
                     </div>
                 </form>
-                
-
-                
             </div>
         </div>
     }

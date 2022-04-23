@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Альбомы";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Плейлисты</h1>
+    <div class="d-flex justify-content-center">
+        <details>
+            <summary>Новый плейлист</summary>
+            <form asp-controller="PlayLists" asp-action="AddPlaylist">
+                <div class="form-inline form-group">
+                    <label>Имя: </label>
+                    <input name="playlistName" class="form-control"/>
+                    <input type="submit" value="Добавить" class="btn btn-success"/>
+                </div>
+                @ViewBag.playlistName
+            </form>
+        </details>
+    </div>
+</div>
+
+        <form>
+            <div class="form-inline form-group">
+                <label class="control-label">Название: </label>
+                <input name="playlistName" class="form-control" />
+                <input type="submit" value="Найти" class="btn btn-primary" />
+            </div>
+        </form>
+
+<div class="d-flex flex-column w-100">
+    @foreach (var item in Model)
+    {
+        <details id="playlist_@item.Playlist.Id">
+            <summary>@item.Playlist.Name <a class="btn btn-danger" asp-controller="PlayLists" asp-action="DeletePlaylist" asp-route-id="@item.Playlist.Id">Удалить</a></summary>
+            @foreach (var el in item.ListSongViewModel)
+            {
+                <div class="d-flex flex-row w-100">
+                    <div class="p-2" style="width: 100px">
+                        <img src="/@el.CoverPath" class="img-fluid" alt="Responsive image">
+                    </div>
+                    <div class="p-2">
+                        <span class="font-weight-bold">@el.Name — </span>
+                        <span class="font-weight-light">@el.Author</span>
+                        <form runat="server">
+                            <audio controls>
+                              <source src="/@el.FilePath" type="audio/mpeg">
+                            </audio>
+                        </form>
+                    </div>
+                    <div class="d-flex flex-wrap align-content-center">
+                        <a class="btn btn-danger" asp-controller="PlayLists" asp-action="DeleteMusicFromPlaylist" asp-route-songId="@el.Id" asp-route-playlistId="@item.Playlist.Id">Удалить</a>
+                    </div>
+                </div>
+            }
+        </details>
+    }
+</div>

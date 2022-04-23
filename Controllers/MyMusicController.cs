@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
-using MusicPlayer.ViewModels;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,27 +20,22 @@ namespace MusicPlayer.Controllers
 
 
         [Authorize(Roles = "admin, user")]
-        public async Task<IActionResult> MyMusic()
+        public async Task<IActionResult> MyMusic(string name)
         {
             var user = await db.User.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
 
-            var mySongs =
-                from list in db.SongList
-                join song in db.Song on list.SongId equals song.Id
-                join author in db.Author on song.AuthorId equals author.Id
-                where list.UserId == user.Id
-                select new SongViewModel
-                {
-                    Id = song.Id,
-                    Name = song.Name,
-                    Author = author.Name,
-                    FilePath = song.FilePath,
-                    CoverPath = song.CoverPath
-                };
+            var res = db.SongList
+                .Include(s => s.Song)
+                .ThenInclude(a => a.Author)
+                .Where(x => x.UserId == user.Id);
+            if (!String.IsNullOrEmpty(name))
+            {
+                res = res.Where(x => x.Song.Name.Contains(name));
+            }
 
             ViewBag.playlists = new SelectList(db.Playlist, "Id", "Name");
-            return View(await mySongs.ToListAsync());
 
+            return View(await res.ToListAsync());
         }
 
 
