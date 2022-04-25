@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicPlayer.Data;
 
 namespace MusicPlayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220425015550_9375")]
+    partial class _9375
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,13 +47,13 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 4, 25, 7, 58, 24, 25, DateTimeKind.Local).AddTicks(5520),
+                            Date = new DateTime(2022, 4, 25, 7, 55, 49, 535, DateTimeKind.Local).AddTicks(4292),
                             Name = "Композиции Бетховена"
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2022, 4, 25, 7, 58, 24, 26, DateTimeKind.Local).AddTicks(9400),
+                            Date = new DateTime(2022, 4, 25, 7, 55, 49, 536, DateTimeKind.Local).AddTicks(5092),
                             Name = "Композиции MGMT"
                         });
                 });
