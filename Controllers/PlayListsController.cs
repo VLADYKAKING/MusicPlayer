@@ -51,7 +51,7 @@ namespace MusicPlayer.Controllers
             //    };
             if (!String.IsNullOrEmpty(playlistName))
             {
-                res = res.Where(x => x.Name.Contains(playlistName)).ToList();
+                res = res.Where(x => x.Name.ToLower().Contains(playlistName.ToLower())).ToList();
             }
             return View(res);
         }

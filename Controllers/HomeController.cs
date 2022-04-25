@@ -33,11 +33,11 @@ namespace MusicPlayer.Controllers
             }
             if (!String.IsNullOrEmpty(name))
             {
-                res = res.Where(s => s.Name.Contains(name)).ToList();
+                res = res.Where(s => s.Name.ToLower().Contains(name.ToLower())).ToList();
             }
             if (!String.IsNullOrEmpty(author))
             {
-                res = res.Where(s => s.Author.Name.Contains(author)).ToList();
+                res = res.Where(s => s.Author.Name.ToLower().Contains(author.ToLower())).ToList();
             }
 
             var genres = db.Genre.ToList();

@@ -10,7 +10,9 @@
         <form>
             <div class="form-inline form-group">
                 <label class="control-label">Название: </label>
-                <input name="playlistName" class="form-control" />
+                <input name="albumName" class="form-control" />
+                <label class="control-label">Автор: </label>
+                <input name="authorName" class="form-control" />
                 <input type="submit" value="Найти" class="btn btn-primary" />
             </div>
         </form>
@@ -19,7 +21,7 @@
     @foreach (var item in Model)
     {
         <details>
-            <summary>@item.Name — @item.Songs.FirstOrDefault().Author — <span>@item.Date.ToString("MM/yyyy")</span></summary>
+            <summary>@item.Name — @item.Songs.FirstOrDefault().Author.Name — <span>@item.Date.ToString("MM/yyyy")</span></summary>
             @foreach (var el in item.Songs)
             {
                 <div class="d-flex flex-row w-100">

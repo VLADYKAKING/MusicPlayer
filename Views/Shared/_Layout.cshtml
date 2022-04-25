@@ -30,6 +30,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="PlayLists" asp-action="PlayLists">Мои плейлисты</a>
                         </li>
+                        <li>
+                           <nav role="navigation">
+                              <ul>
+                                <li><a href="#">One</a></li>
+                                <li><a href="#">Two</a>
+                                  <ul class="dropdown">
+                                    <li><a href="#">Sub-1</a></li>
+                                    <li><a href="#">Sub-2</a></li>
+                                    <li><a href="#">Sub-3</a></li>
+                                  </ul>
+                                </li>
+                                <li><a href="#">Three</a></li>
+                              </ul>
+                            </nav>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

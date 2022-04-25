@@ -30,7 +30,7 @@ namespace MusicPlayer.Controllers
                 .Where(x => x.UserId == user.Id);
             if (!String.IsNullOrEmpty(name))
             {
-                res = res.Where(x => x.Song.Name.Contains(name));
+                res = res.Where(x => x.Song.Name.ToLower().Contains(name.ToLower()));
             }
 
             ViewBag.playlists = new SelectList(db.Playlist, "Id", "Name");
