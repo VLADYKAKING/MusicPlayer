@@ -8,16 +8,49 @@
         <h1 class="display-4">Добавление</h1>
     </div>
 
-    @*<form asp-controller="AdminAdd" asp-action="Add" method="post" enctype="multipart/form-data">
-        <input type="file" name="uploads" /><br>
-        <input type="submit" value="Загрузить" />
-    </form>*@
-    
     <form asp-controller="AdminAdd" asp-action="Add" method="post" enctype="multipart/form-data">
-        <input type="file" name="upload" single />
-        <input type="submit" value="Upload" />
-        <br/>
+        <div class="form-group">
+            <label>Выбор обложки и музыки</label>
+            <input type="file" name="upload" multiple required/>
+        </div>
+        <div class="form-group">
+            <label>Название</label>
+            <input type="text" name="name" required/>
+        </div>
+        <div class="form-group">
+            <label>Автор</label>
+            <input list="authors" name="author" required>
+                <datalist id="authors">
+                    @foreach (var item in @ViewBag.authors)
+                    {
+                       <option value="@item"></option>
+                    }
+                </datalist>
+        </div>
+        <div class="form-group">
+            <label>Жанр</label>
+            <input list="genres" name="genre" required>
+                <datalist id="genres">
+                    @foreach (var item in @ViewBag.genres)
+                    {
+                       <option value="@item"></option>
+                    }
+                </datalist>
+        </div>
+        <div class="form-group">
+            <label>Альбом</label>
+            <input list="albums" name="album" required>
+                <datalist id="albums">
+                    @foreach (var item in @ViewBag.albums)
+                    {
+                       <option value="@item"></option>
+                    }
+                </datalist>
+        </div>
+        <input type="submit" value="Загрузить" />
     </form>
+
+
 
 
     
