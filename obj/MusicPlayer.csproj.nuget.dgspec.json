@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\V\\Desktop\\MusicPlayer\\MusicPlayer.csproj": {}
+    "C:\\Users\\vadal\\Desktop\\MusicPlayer\\MusicPlayer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\V\\Desktop\\MusicPlayer\\MusicPlayer.csproj": {
+    "C:\\Users\\vadal\\Desktop\\MusicPlayer\\MusicPlayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\V\\Desktop\\MusicPlayer\\MusicPlayer.csproj",
+        "projectUniqueName": "C:\\Users\\vadal\\Desktop\\MusicPlayer\\MusicPlayer.csproj",
         "projectName": "MusicPlayer",
-        "projectPath": "C:\\Users\\V\\Desktop\\MusicPlayer\\MusicPlayer.csproj",
-        "packagesPath": "C:\\Users\\V\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\V\\Desktop\\MusicPlayer\\obj\\",
+        "projectPath": "C:\\Users\\vadal\\Desktop\\MusicPlayer\\MusicPlayer.csproj",
+        "packagesPath": "C:\\Users\\vadal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vadal\\Desktop\\MusicPlayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\V\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vadal\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
