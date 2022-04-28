@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.Controllers
 {
-    public class AdminAdd : Controller
+    public class Admin : Controller
     {
         private ApplicationDbContext db;
         IWebHostEnvironment ae;
-        public AdminAdd(ApplicationDbContext context, IWebHostEnvironment appEnvironment)
+        public Admin(ApplicationDbContext context, IWebHostEnvironment appEnvironment)
         {
             db = context;
             ae = appEnvironment;
@@ -86,6 +86,11 @@ namespace MusicPlayer.Controllers
             await db.SaveChangesAsync();
 
             return RedirectToAction("AddPage");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete()
+        {
+            return RedirectToAction("");
         }
     }
 }

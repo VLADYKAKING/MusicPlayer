@@ -8,7 +8,7 @@
         <h1 class="display-4">Добавление</h1>
     </div>
 
-    <form asp-controller="AdminAdd" asp-action="Add" method="post" enctype="multipart/form-data">
+    <form asp-controller="Admin" asp-action="Add" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label>Выбор обложки и музыки</label>
             <input type="file" name="upload" multiple required/>
@@ -49,9 +49,4 @@
         </div>
         <input type="submit" value="Загрузить" />
     </form>
-
-
-
-
-    
 </div>
