@@ -12,10 +12,10 @@ namespace MusicPlayer.Controllers
 {
     public class AccountController : Controller
     {
-        private ApplicationDbContext _context;
+        private ApplicationDbContext db;
         public AccountController(ApplicationDbContext context)
         {
-            _context = context;
+            db = context;
         }
 
 
@@ -32,16 +32,16 @@ namespace MusicPlayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.User.FirstOrDefaultAsync(u => u.Email == model.Email);
+                User user = await db.User.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
                     // добавляем пользователя в бд
                     user = new User { Name = model.Name, Email = model.Email, Password = model.Password };
-                    Role userRole = await _context.Role.FirstOrDefaultAsync(r => r.Name == "user");
+                    Role userRole = await db.Role.FirstOrDefaultAsync(r => r.Name == "user");
                     if (userRole != null) user.Role = userRole;
 
-                    _context.User.Add(user);
-                    await _context.SaveChangesAsync();
+                    db.User.Add(user);
+                    await db.SaveChangesAsync();
 
                     await Authenticate(user); // аутентификация
 
@@ -67,7 +67,7 @@ namespace MusicPlayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.User
+                User user = await db.User
                     .Include(u => u.Role)
                     .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
