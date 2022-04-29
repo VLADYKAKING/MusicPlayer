@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
 using System;
@@ -11,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.Controllers
 {
-    public class Admin : Controller
+    public class AdminController : Controller
     {
         private ApplicationDbContext db;
         IWebHostEnvironment ae;
-        public Admin(ApplicationDbContext context, IWebHostEnvironment appEnvironment)
+        public AdminController(ApplicationDbContext context, IWebHostEnvironment appEnvironment)
         {
             db = context;
             ae = appEnvironment;
@@ -26,6 +27,14 @@ namespace MusicPlayer.Controllers
             ViewBag.authors = db.Author.Select(x => x.Name).ToList();
             ViewBag.genres = db.Genre.Select(x => x.Name).ToList();
             ViewBag.albums = db.Album.Select(x => x.Name).ToList();
+            return View();
+        }
+        public IActionResult DeletePage()
+        {
+            ViewBag.authors = db.Author.Select(x => x.Name).ToList();
+            ViewBag.genres = db.Genre.Select(x => x.Name).ToList();
+            ViewBag.albums = db.Album.Select(x => x.Name).ToList();
+            ViewBag.songs = db.Song.Select(x => x.Name).ToList();
             return View();
         }
 
@@ -41,7 +50,7 @@ namespace MusicPlayer.Controllers
 
             if (author_q == null) author_q = new Author { Name = author };
             if (genre_q == null) genre_q = new Genre { Name = genre };
-            if (album_q == null) album_q = new Album { Name = album, Date = DateTime.Now };
+            if (album_q == null) album_q = new Album { Name = album, Date = DateTime.Now};
 
             #region files upload
             foreach (var file in upload)
@@ -80,7 +89,7 @@ namespace MusicPlayer.Controllers
                 FilePath = "music/" + FILE,
                 Genre = genre_q,
                 Author = author_q,
-                Album= album_q
+                Album = album_q
             };
             db.Song.Add(res);
             await db.SaveChangesAsync();
@@ -88,9 +97,31 @@ namespace MusicPlayer.Controllers
             return RedirectToAction("AddPage");
         }
         [HttpPost]
-        public async Task<IActionResult> Delete()
+        public async Task<IActionResult> Delete(string author, string album, string genre, string song)
         {
-            return RedirectToAction("");
+            var auth = db.Author.FirstOrDefault(x => x.Name == author);
+            if (auth != null)
+            {
+                var al= db.Album.Include(s=>s.Songs).Where(x=>x.Songs.FirstOrDefault().Author.Name==author).ToList();
+                db.Album.RemoveRange(al);
+                db.Author.Remove(auth);
+            }
+
+            var alb = db.Album.FirstOrDefault(x => x.Name == album);
+            if (alb != null)
+                db.Album.Remove(alb);
+
+            var gen = db.Genre.FirstOrDefault(x => x.Name == genre);
+            if (gen != null)
+                db.Genre.Remove(gen);
+
+            var sng = db.Song.FirstOrDefault(x => x.Name == song);
+            if (sng != null)
+                db.Song.Remove(sng);
+
+
+            await db.SaveChangesAsync();
+            return RedirectToAction("DeletePage");
         }
     }
 }

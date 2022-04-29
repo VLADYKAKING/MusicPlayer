@@ -10,8 +10,8 @@ using MusicPlayer.Data;
 namespace MusicPlayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220423164729_34897324")]
-    partial class _34897324
+    [Migration("20220429140857_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,13 +47,13 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 4, 23, 22, 47, 28, 643, DateTimeKind.Local).AddTicks(7984),
+                            Date = new DateTime(2022, 4, 29, 20, 8, 56, 722, DateTimeKind.Local).AddTicks(7207),
                             Name = "Композиции Бетховена"
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2022, 4, 23, 22, 47, 28, 644, DateTimeKind.Local).AddTicks(8610),
+                            Date = new DateTime(2022, 4, 29, 20, 8, 56, 723, DateTimeKind.Local).AddTicks(8254),
                             Name = "Композиции MGMT"
                         });
                 });
@@ -268,6 +268,9 @@ namespace MusicPlayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -290,6 +293,7 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 1,
+                            Deleted = false,
                             Email = "admin@mail.ru",
                             Name = "Vladislav Adminovich",
                             Password = "0000",
@@ -298,6 +302,7 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 2,
+                            Deleted = false,
                             Email = "user@mail.ru",
                             Name = "Vladislav Userovich",
                             Password = "0000",
@@ -332,7 +337,7 @@ namespace MusicPlayer.Migrations
                         .IsRequired();
 
                     b.HasOne("MusicPlayer.Models.Author", "Author")
-                        .WithMany()
+                        .WithMany("Songs")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -403,6 +408,8 @@ namespace MusicPlayer.Migrations
             modelBuilder.Entity("MusicPlayer.Models.Author", b =>
                 {
                     b.Navigation("Albums");
+
+                    b.Navigation("Songs");
                 });
 
             modelBuilder.Entity("MusicPlayer.Models.Genre", b =>

@@ -10,8 +10,8 @@ using MusicPlayer.Data;
 namespace MusicPlayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220425015825_93755")]
-    partial class _93755
+    [Migration("20220429162720_23345345")]
+    partial class _23345345
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,13 +47,13 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2022, 4, 25, 7, 58, 24, 25, DateTimeKind.Local).AddTicks(5520),
+                            Date = new DateTime(2022, 4, 29, 22, 27, 19, 446, DateTimeKind.Local).AddTicks(4678),
                             Name = "Композиции Бетховена"
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2022, 4, 25, 7, 58, 24, 26, DateTimeKind.Local).AddTicks(9400),
+                            Date = new DateTime(2022, 4, 29, 22, 27, 19, 447, DateTimeKind.Local).AddTicks(6003),
                             Name = "Композиции MGMT"
                         });
                 });
@@ -268,6 +268,9 @@ namespace MusicPlayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -290,6 +293,7 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 1,
+                            Deleted = false,
                             Email = "admin@mail.ru",
                             Name = "Vladislav Adminovich",
                             Password = "0000",
@@ -298,6 +302,7 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 2,
+                            Deleted = false,
                             Email = "user@mail.ru",
                             Name = "Vladislav Userovich",
                             Password = "0000",
@@ -332,7 +337,7 @@ namespace MusicPlayer.Migrations
                         .IsRequired();
 
                     b.HasOne("MusicPlayer.Models.Author", "Author")
-                        .WithMany()
+                        .WithMany("Songs")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -353,7 +358,7 @@ namespace MusicPlayer.Migrations
             modelBuilder.Entity("MusicPlayer.Models.SongList", b =>
                 {
                     b.HasOne("MusicPlayer.Models.Song", "Song")
-                        .WithMany()
+                        .WithMany("SongList")
                         .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -378,7 +383,7 @@ namespace MusicPlayer.Migrations
                         .IsRequired();
 
                     b.HasOne("MusicPlayer.Models.Song", "Song")
-                        .WithMany()
+                        .WithMany("SongsPlaylist")
                         .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -403,6 +408,8 @@ namespace MusicPlayer.Migrations
             modelBuilder.Entity("MusicPlayer.Models.Author", b =>
                 {
                     b.Navigation("Albums");
+
+                    b.Navigation("Songs");
                 });
 
             modelBuilder.Entity("MusicPlayer.Models.Genre", b =>
@@ -418,6 +425,13 @@ namespace MusicPlayer.Migrations
             modelBuilder.Entity("MusicPlayer.Models.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("MusicPlayer.Models.Song", b =>
+                {
+                    b.Navigation("SongList");
+
+                    b.Navigation("SongsPlaylist");
                 });
 #pragma warning restore 612, 618
         }

@@ -36,7 +36,13 @@ namespace MusicPlayer.Controllers
                 if (user == null)
                 {
                     // добавляем пользователя в бд
-                    user = new User { Name = model.Name, Email = model.Email, Password = model.Password };
+                    user = new User
+                    {
+                        Name = model.Name,
+                        Email = model.Email,
+                        Password = model.Password,
+                        Deleted = false
+                    };
                     Role userRole = await db.Role.FirstOrDefaultAsync(r => r.Name == "user");
                     if (userRole != null) user.Role = userRole;
 
@@ -70,7 +76,7 @@ namespace MusicPlayer.Controllers
                 User user = await db.User
                     .Include(u => u.Role)
                     .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (user != null)
+                if (user != null && user.Deleted == false)
                 {
                     await Authenticate(user); // аутентификация
 

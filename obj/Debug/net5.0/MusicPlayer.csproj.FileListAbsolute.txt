@@ -152,3 +152,4 @@ C:\Users\V\Desktop\MusicPlayer\obj\Debug\net5.0\Razor\Views\Albums\Albums.cshtml
 C:\Users\vadal\Desktop\MusicPlayer\obj\Debug\net5.0\Razor\Views\Albums\Albums.cshtml.g.cs
 C:\Users\vadal\Desktop\MusicPlayer\obj\Debug\net5.0\Razor\Views\Admin\AddPage.cshtml.g.cs
 C:\Users\V\Desktop\MusicPlayer\obj\Debug\net5.0\Razor\Views\Admin\AddPage.cshtml.g.cs
+C:\Users\V\Desktop\MusicPlayer\obj\Debug\net5.0\Razor\Views\Admin\DeletePage.cshtml.g.cs

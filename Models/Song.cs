@@ -1,4 +1,6 @@
-﻿namespace MusicPlayer.Models
+﻿using System.Collections.Generic;
+
+namespace MusicPlayer.Models
 {
     public class Song
     {
@@ -12,6 +14,7 @@
         public Genre Genre { get; set; }
         public Author Author { get; set; }
         public Album Album { get; set; }
-
+        public List<SongList> SongList { get; set; }
+        public List<SongsPlaylist> SongsPlaylist { get; set; }
     }
 }

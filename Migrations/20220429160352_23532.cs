@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MusicPlayer.Migrations
 {
-    public partial class _348975 : Migration
+    public partial class _23532 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,22 +11,19 @@ namespace MusicPlayer.Migrations
                 name: "FK_Album_Author_AuthorId",
                 table: "Album");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "AuthorId",
-                table: "Album",
-                type: "int",
-                nullable: false,
-                defaultValue: 0,
-                oldClrType: typeof(int),
-                oldType: "int",
-                oldNullable: true);
-
             migrationBuilder.UpdateData(
                 table: "Album",
                 keyColumn: "Id",
                 keyValue: 1,
-                columns: new[] { "AuthorId", "Date" },
-                values: new object[] { 0, new DateTime(2022, 4, 23, 22, 36, 11, 857, DateTimeKind.Local).AddTicks(7601) });
+                column: "Date",
+                value: new DateTime(2022, 4, 29, 22, 3, 51, 812, DateTimeKind.Local).AddTicks(7202));
+
+            migrationBuilder.UpdateData(
+                table: "Album",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "Date",
+                value: new DateTime(2022, 4, 29, 22, 3, 51, 813, DateTimeKind.Local).AddTicks(8671));
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Album_Author_AuthorId",
@@ -43,20 +40,19 @@ namespace MusicPlayer.Migrations
                 name: "FK_Album_Author_AuthorId",
                 table: "Album");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "AuthorId",
-                table: "Album",
-                type: "int",
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "int");
-
             migrationBuilder.UpdateData(
                 table: "Album",
                 keyColumn: "Id",
                 keyValue: 1,
-                columns: new[] { "AuthorId", "Date" },
-                values: new object[] { null, new DateTime(2022, 4, 23, 19, 49, 45, 983, DateTimeKind.Local).AddTicks(6714) });
+                column: "Date",
+                value: new DateTime(2022, 4, 29, 20, 8, 56, 722, DateTimeKind.Local).AddTicks(7207));
+
+            migrationBuilder.UpdateData(
+                table: "Album",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "Date",
+                value: new DateTime(2022, 4, 29, 20, 8, 56, 723, DateTimeKind.Local).AddTicks(8254));
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Album_Author_AuthorId",

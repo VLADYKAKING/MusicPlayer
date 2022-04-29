@@ -10,8 +10,8 @@ using MusicPlayer.Data;
 namespace MusicPlayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220423163613_348975")]
-    partial class _348975
+    [Migration("20220429160352_23532")]
+    partial class _23532
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,7 @@ namespace MusicPlayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
@@ -47,9 +47,14 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 1,
-                            AuthorId = 0,
-                            Date = new DateTime(2022, 4, 23, 22, 36, 11, 857, DateTimeKind.Local).AddTicks(7601),
+                            Date = new DateTime(2022, 4, 29, 22, 3, 51, 812, DateTimeKind.Local).AddTicks(7202),
                             Name = "Композиции Бетховена"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2022, 4, 29, 22, 3, 51, 813, DateTimeKind.Local).AddTicks(8671),
+                            Name = "Композиции MGMT"
                         });
                 });
 
@@ -72,6 +77,11 @@ namespace MusicPlayer.Migrations
                         {
                             Id = 1,
                             Name = "Людвиг ван Бетховен"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "MGMT"
                         });
                 });
 
@@ -94,6 +104,11 @@ namespace MusicPlayer.Migrations
                         {
                             Id = 1,
                             Name = "Классика"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Электропоп"
                         });
                 });
 
@@ -189,6 +204,16 @@ namespace MusicPlayer.Migrations
                             FilePath = "music/moonlightSonata.mp3",
                             GenreId = 1,
                             Name = "Лунная соната"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AlbumId = 2,
+                            AuthorId = 2,
+                            CoverPath = "covers/lda.jpg",
+                            FilePath = "music/MGMT - Little Dark Age.mp3",
+                            GenreId = 2,
+                            Name = "Little Dark Age"
                         });
                 });
 
@@ -243,6 +268,9 @@ namespace MusicPlayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -265,6 +293,7 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 1,
+                            Deleted = false,
                             Email = "admin@mail.ru",
                             Name = "Vladislav Adminovich",
                             Password = "0000",
@@ -273,6 +302,7 @@ namespace MusicPlayer.Migrations
                         new
                         {
                             Id = 2,
+                            Deleted = false,
                             Email = "user@mail.ru",
                             Name = "Vladislav Userovich",
                             Password = "0000",
@@ -282,11 +312,12 @@ namespace MusicPlayer.Migrations
 
             modelBuilder.Entity("MusicPlayer.Models.Album", b =>
                 {
-                    b.HasOne("MusicPlayer.Models.Author", null)
+                    b.HasOne("MusicPlayer.Models.Author", "Author")
                         .WithMany("Albums")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("MusicPlayer.Models.Playlist", b =>
@@ -309,7 +340,7 @@ namespace MusicPlayer.Migrations
                         .IsRequired();
 
                     b.HasOne("MusicPlayer.Models.Author", "Author")
-                        .WithMany()
+                        .WithMany("Songs")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -330,7 +361,7 @@ namespace MusicPlayer.Migrations
             modelBuilder.Entity("MusicPlayer.Models.SongList", b =>
                 {
                     b.HasOne("MusicPlayer.Models.Song", "Song")
-                        .WithMany()
+                        .WithMany("SongList")
                         .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -355,7 +386,7 @@ namespace MusicPlayer.Migrations
                         .IsRequired();
 
                     b.HasOne("MusicPlayer.Models.Song", "Song")
-                        .WithMany()
+                        .WithMany("SongsPlaylist")
                         .HasForeignKey("SongId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -380,6 +411,8 @@ namespace MusicPlayer.Migrations
             modelBuilder.Entity("MusicPlayer.Models.Author", b =>
                 {
                     b.Navigation("Albums");
+
+                    b.Navigation("Songs");
                 });
 
             modelBuilder.Entity("MusicPlayer.Models.Genre", b =>
@@ -395,6 +428,13 @@ namespace MusicPlayer.Migrations
             modelBuilder.Entity("MusicPlayer.Models.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("MusicPlayer.Models.Song", b =>
+                {
+                    b.Navigation("SongList");
+
+                    b.Navigation("SongsPlaylist");
                 });
 #pragma warning restore 612, 618
         }

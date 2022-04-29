@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Удалить";
+}
+
+<div class="d-flex flex-column w-100">
+    <div class="text-center">
+        <h1 class="display-4">Удаление</h1>
+    </div>
+
+    <form asp-controller="Admin" asp-action="Delete" method="post" enctype="multipart/form-data">
+        <label>Автор</label>
+            <input list="authors" name="author" >
+                <datalist id="authors">
+                    @foreach (var item in @ViewBag.authors)
+                    {
+                       <option value="@item" ></option>
+                    }
+                </datalist>
+        <label>Альбом</label>
+            <input list="albums" name="album" >
+                <datalist id="albums">
+                    @foreach (var item in @ViewBag.albums)
+                    {
+                       <option value="@item" ></option>
+                    }
+                </datalist> 
+        <label>Жанр</label>
+            <input list="genres" name="genre" >
+                <datalist id="genres">
+                    @foreach (var item in @ViewBag.genres)
+                    {
+                       <option value="@item" ></option>
+                    }
+                </datalist> 
+        <label>Музыка</label>
+            <input list="songs" name="song" >
+                <datalist id="songs">
+                    @foreach (var item in @ViewBag.songs)
+                    {
+                       <option value="@item" ></option>
+                    }
+                </datalist> 
+        <input type="submit" value="Удалить" />
+    </form>
+</div>

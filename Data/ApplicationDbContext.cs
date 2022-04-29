@@ -16,11 +16,7 @@ namespace MusicPlayer.Data
         public DbSet<SongsPlaylist> SongsPlaylist { get; set; }
         public DbSet<User> User { get; set; }
 
-
-
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
@@ -31,8 +27,8 @@ namespace MusicPlayer.Data
             Role userRole = new Role { Id = 2, Name = "user" };
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             //add users
-            User adminUser = new User { Id = 1, Name = "Vladislav Adminovich", Email = "admin@mail.ru", Password = "0000", RoleId = adminRole.Id };
-            User userUser = new User { Id = 2, Name = "Vladislav Userovich", Email = "user@mail.ru", Password = "0000", RoleId = userRole.Id };
+            User adminUser = new User { Id = 1, Name = "Vladislav Adminovich", Email = "admin@mail.ru", Password = "0000", RoleId = adminRole.Id, Deleted=false };
+            User userUser = new User { Id = 2, Name = "Vladislav Userovich", Email = "user@mail.ru", Password = "0000", RoleId = userRole.Id, Deleted = false };
             modelBuilder.Entity<User>().HasData(new User[] { adminUser, userUser });
             //add genres
             Genre genre1 = new Genre { Id = 1, Name = "Классика" };
@@ -49,8 +45,38 @@ namespace MusicPlayer.Data
             //add music
             Song song1 = new Song { Id = 1, Name = "Лунная соната", CoverPath = @"covers/moonlight.jpg", FilePath = @"music/moonlightSonata.mp3", GenreId = 1, AuthorId = 1, AlbumId = 1 };
             Song song2 = new Song { Id = 2, Name = "Little Dark Age", CoverPath = @"covers/lda.jpg", FilePath = @"music/MGMT - Little Dark Age.mp3", GenreId = 2, AuthorId = 2, AlbumId = 2 };
-
             modelBuilder.Entity<Song>().HasData(new Song[] { song1, song2 });
+
+            modelBuilder.Entity<Song>()//при удалении автора удаляем его песни
+                .HasOne(a => a.Author)
+                .WithMany(s => s.Songs)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<Album>()//автор - альбомы
+            //    .HasOne(a => a.Author)
+            //    .WithMany(s => s.Albums)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Song>()//альбом - песни
+                .HasOne(a => a.Album)
+                .WithMany(s => s.Songs)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Song>()//жанр - песни
+                .HasOne(a => a.Genre)
+                .WithMany(s => s.Songs)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SongList>()//песня - песни из "моя музыка"
+                .HasOne(a => a.Song)
+                .WithMany(s => s.SongList)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SongsPlaylist>()//песня - песни из плейлистов
+                .HasOne(a => a.Song)
+                .WithMany(s => s.SongsPlaylist)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             base.OnModelCreating(modelBuilder);
         }
