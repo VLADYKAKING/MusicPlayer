@@ -11,7 +11,14 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="AllSongs">MusicPlayer</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="AllSongs">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-music-note" viewBox="0 0 16 16">
+                      <path d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2z"/>
+                      <path fill-rule="evenodd" d="M9 3v10H8V3h1z"/>
+                      <path d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5V2.82z"/>
+                    </svg>
+                    MusicPlayer
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -40,6 +47,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item" asp-controller="Admin" asp-action="AddPage">Добавление</a>
                                         <a class="dropdown-item" asp-controller="Admin" asp-action="DeletePage">Удаление</a>
+                                        <a class="dropdown-item" asp-controller="Admin" asp-action="ManageUsersPage">Пользователи</a>
                                     </div>
                                 </div>
                             </li>

@@ -37,7 +37,11 @@ namespace MusicPlayer.Controllers
             ViewBag.songs = db.Song.Select(x => x.Name).ToList();
             return View();
         }
-
+        public IActionResult ManageUsersPage()
+        {
+            var users = db.User.Include(x=>x.Role).ToList();
+            return View(users);
+        }
         [HttpPost]
         public async Task<IActionResult> Add(List<IFormFile> upload, string name, string author, string genre, string album)
         {
@@ -115,13 +119,31 @@ namespace MusicPlayer.Controllers
             if (gen != null)
                 db.Genre.Remove(gen);
 
-            var sng = db.Song.FirstOrDefault(x => x.Name == song);
+            var sng = db.Song.Include(x=>x.Album).ThenInclude(x=>x.Songs).FirstOrDefault(x => x.Name == song);
             if (sng != null)
+            {
+                if (sng.Album.Songs.Count == 1) db.Album.Remove(sng.Album);
                 db.Song.Remove(sng);
+
+            }
 
 
             await db.SaveChangesAsync();
             return RedirectToAction("DeletePage");
+        }
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var user = db.User.FirstOrDefault(x => x.Id == id);
+            if (user != null) user.Deleted = true;
+            await db.SaveChangesAsync();
+            return RedirectToAction("ManageUsersPage");
+        }
+        public async Task<IActionResult> RestoreUser(int id)
+        {
+            var user = db.User.FirstOrDefault(x => x.Id == id);
+            if (user != null) user.Deleted = false;
+            await db.SaveChangesAsync();
+            return RedirectToAction("ManageUsersPage");
         }
     }
 }

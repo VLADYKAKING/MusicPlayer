@@ -25,6 +25,7 @@ namespace MusicPlayer.Controllers
         [Authorize(Roles = "admin, user")]
         public async Task<IActionResult> AllSongs(int? genre, string name, string author)
         {
+            var al = db.Album.Include(x => x.Songs).Count();
             var res = await db.Song.Include(s => s.Author).Include(g => g.Genre).ToListAsync();
 
             if (genre != null && genre != 0)
@@ -41,7 +42,7 @@ namespace MusicPlayer.Controllers
             }
 
             var genres = db.Genre.ToList();
-            genres.Insert(0, new Genre { Id = 0, Name = "Все" });
+            genres.Insert(0, new Genre { Id = 0, Name = "-Жанр-" });
 
             ViewBag.genres = new SelectList(genres, "Id", "Name");
             return View(res);

@@ -41,11 +41,14 @@ namespace MusicPlayer.Controllers
 
         public async Task<IActionResult> AddToPlaylist(int SongId, int PlaylistId)
         {
-            var spl = db.SongsPlaylist.FirstOrDefault(x => x.SongId == SongId && x.PlaylistId == PlaylistId);
-            if (spl == null)
+            if(SongId>0 && PlaylistId > 0)
             {
-                db.SongsPlaylist.Add(new SongsPlaylist { SongId = SongId, PlaylistId = PlaylistId });
-                await db.SaveChangesAsync();
+                var spl = db.SongsPlaylist.FirstOrDefault(x => x.SongId == SongId && x.PlaylistId == PlaylistId);
+                if (spl == null)
+                {
+                    db.SongsPlaylist.Add(new SongsPlaylist { SongId = SongId, PlaylistId = PlaylistId });
+                    await db.SaveChangesAsync();
+                }
             }
             return RedirectToAction("MyMusic");
         }

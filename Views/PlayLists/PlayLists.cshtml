@@ -1,6 +1,6 @@
 ﻿@model List<Playlist>
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Плейлисты";
 }
 
 <div class="text-center">
@@ -10,24 +10,31 @@
             <summary>Новый плейлист</summary>
             <form asp-controller="PlayLists" asp-action="AddPlaylist">
                 <div class="form-inline form-group">
-                    <label>Имя: </label>
-                    <input name="playlistName" class="form-control"/>
-                    <input type="submit" value="Добавить" class="btn btn-success"/>
+                    <input name="playlistName" class="form-control" placeholder="Название"/>
+                    <button type="submit" class="btn btn-success">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-plus" viewBox="0 0 16 16">
+                          <path d="m.5 3 .04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2zm5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672z"/>
+                          <path d="M13.5 10a.5.5 0 0 1 .5.5V12h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V13h-1.5a.5.5 0 0 1 0-1H13v-1.5a.5.5 0 0 1 .5-.5z"/>
+                        </svg>
+                    </button>
                 </div>
                 @ViewBag.playlistName
             </form>
         </details>
     </div>
 </div>
-
+    <div class="d-flex justify-content-center">
         <form>
             <div class="form-inline form-group">
-                <label class="control-label">Название: </label>
-                <input name="playlistName" class="form-control" />
-                <input type="submit" value="Найти" class="btn btn-primary" />
+                <input name="playlistName" class="form-control" placeholder="Название"/>
+                <button type="submit" value="Найти" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                 </button>
             </div>
         </form>
-
+    </div>
 <div class="d-flex flex-column w-100">
     @foreach (var pl in Model)
     {
@@ -35,7 +42,7 @@
             <summary>@pl.Name<a class="btn btn-danger" asp-controller="PlayLists" asp-action="DeletePlaylist" asp-route-id="@pl.Id">Удалить</a></summary>
             @foreach (var el in pl.SongsPlaylists)
             {
-                <div class="d-flex flex-row w-100">
+                <div class="d-flex justify-content-center">
                     <div class="p-2" style="width: 100px">
                         <img src="/@el.Song.CoverPath" class="img-fluid" alt="Responsive image">
                     </div>

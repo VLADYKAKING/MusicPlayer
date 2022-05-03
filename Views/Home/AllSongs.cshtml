@@ -6,22 +6,24 @@
 <div class="text-center">
     <h1 class="display-4">Каталог музыки</h1>
 </div>
+    <div class="d-flex justify-content-center">
         <form>
             <div class="form-inline form-group">
-                <label class="control-label">Название: </label>
-                <input name="name" class="form-control" />
-                <label class="control-label">Автор: </label>
-                <input name="author" class="form-control" />
+                <input name="name" class="form-control" placeholder="Название"/>
+                <input name="author" class="form-control" placeholder="Автор"/>
                  <select name="genre" asp-items="@ViewBag.genres" class="form-control"></select>
- 
-                <input type="submit" value="Найти" class="btn btn-primary" />
+                 <button type="submit" value="Найти" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                 </button>
             </div>
         </form>
-
-<div class="d-flex flex-column w-100">
+    </div>
+<div class="d-flex justify-content-center">
     @foreach (var item in Model)
     {
-        <div class="d-flex flex-row w-100">
+        <div class="d-flex justify-content-center">
             <div class="p-2" style="width: 100px">
                 <img src="@item.CoverPath" class="img-fluid" alt="Responsive image">
             </div>
@@ -35,7 +37,11 @@
                 </form>
             </div>
             <div class="d-flex flex-wrap align-content-center">
-                <a class="btn btn-success" asp-controller="Home" asp-action="Add" asp-route-id="@item.Id">Добавить</a>
+                <a class="btn btn-success" asp-controller="Home" asp-action="Add" asp-route-id="@item.Id">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="30" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                </a>
             </div>
         </div>
     }
